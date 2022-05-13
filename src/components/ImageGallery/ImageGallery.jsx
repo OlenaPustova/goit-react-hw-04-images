@@ -17,7 +17,7 @@ class ImageGallery extends Component {
     error: null,
   };
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
+  componentDidUpdate(prevProps, prevState) {
     if (prevProps.query !== this.props.query) {
       this.setState({ images: [], page: 1 });
     }
@@ -25,35 +25,15 @@ class ImageGallery extends Component {
       prevState.page !== this.state.page ||
       (prevProps.query !== this.props.query && this.state.page === 1)
     ) {
-      // if (this.props.query === '') {
-      // this.setState({
-      // error: new Error(
-      // Notiflix.Notify.info('Please enter your query in query text box.')
-      // ),
-      // });
-      // } else {
       this.getImages();
-      // }
     }
     if (prevState.images !== this.state.images && prevState.images.length > 0) {
       window.scrollBy({
-        top: window.innerHeight - 55,
+        top: window.innerHeight - 140,
         left: 0,
         behavior: 'smooth',
       });
-      console.log('kjkjkjhkjh');
-      // window.scrollTo({
-      //   top: snapshot,
-      //   behavior: 'smooth',
-      // });
     }
-  }
-
-  getSnapshotBeforeUpdate() {
-    console.log('kjkjkjhkjh');
-
-    const scrollHeight = document.body.scrollHeight;
-    return scrollHeight;
   }
 
   getImages = () => {
@@ -62,9 +42,7 @@ class ImageGallery extends Component {
       .then(({ images, totalImages }) => {
         if (!images.length) {
           throw new Error(
-            Notiflix.Notify.failure(
-              'Sorry, there are no images matching your search query. Please try again.'
-            )
+            'Sorry, there are no images matching your search query. Please try again.'
           );
         }
         this.setState(prev => ({
@@ -72,7 +50,7 @@ class ImageGallery extends Component {
           totalImages,
         }));
       })
-      .catch(error => this.setState({ error }))
+      .catch(error => this.setState(Notiflix.Notify.failure(error.message)))
       .finally(() => this.setState({ loading: false }));
   };
 
