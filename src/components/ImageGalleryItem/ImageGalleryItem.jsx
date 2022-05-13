@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 
 function ImageGalleryItem({ img, openModal }) {
   const { webformatURL, largeImageURL, tags } = img;
-  const handleClick = modalImg => {
-    openModal(modalImg, tags);
+  const handleClick = () => {
+    openModal(largeImageURL, tags);
   };
   return (
-    <li className={s.item} onClick={() => handleClick(largeImageURL, tags)}>
+    <li className={s.item} onClick={() => handleClick()}>
       <img src={webformatURL} alt={tags} className={s.image} />
     </li>
   );

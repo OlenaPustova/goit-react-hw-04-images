@@ -15,7 +15,6 @@ class Searchbar extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-
     if (this.state.input.trim() === '') {
       return Notiflix.Notify.info('Please enter your query in query text box.');
     }
