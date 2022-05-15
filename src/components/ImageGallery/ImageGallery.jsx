@@ -81,6 +81,7 @@ export default function ImageGallery({ query, toggleModal }) {
       {images.length > 0 && images.length < totalImages && (
         <Button handleLoadMore={handleLoadMore} />
       )}
+      {error && <>{error.message}</>}
     </>
   );
 }
