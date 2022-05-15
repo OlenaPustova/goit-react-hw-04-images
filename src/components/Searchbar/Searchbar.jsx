@@ -1,51 +1,45 @@
 import s from './Searchbar.module.scss';
 import PropTypes from 'prop-types';
 import { ImSearch } from 'react-icons/im';
-import { Component } from 'react';
+import { useState } from 'react';
 import Notiflix from 'notiflix';
 
-class Searchbar extends Component {
-  state = {
-    input: '',
+export default function Searchbar({ changeSearch }) {
+  const [query, setInput] = useState('');
+
+  const handleChange = e => {
+    setInput(e.target.value.toLowerCase());
   };
 
-  handleChange = e => {
-    this.setState({ input: e.target.value.toLowerCase() });
-  };
-
-  onSubmit = e => {
+  const onSubmit = e => {
     e.preventDefault();
-    if (this.state.input.trim() === '') {
+    if (query.trim() === '') {
       return Notiflix.Notify.info('Please enter your query in query text box.');
     }
-    this.props.changeSearch(this.state.input);
+    changeSearch(query);
   };
 
-  render() {
-    return (
-      <header className={s.Searchbar}>
-        <form className={s.form} onSubmit={this.onSubmit}>
-          <button type="submit" className={s.button}>
-            <ImSearch />
-            <span className={s.label}>Search</span>
-          </button>
+  return (
+    <header className={s.Searchbar}>
+      <form className={s.form} onSubmit={onSubmit}>
+        <button type="submit" className={s.button}>
+          <ImSearch />
+          <span className={s.label}>Search</span>
+        </button>
 
-          <input
-            className={s.input}
-            value={this.state.input}
-            type="text"
-            autoComplete="off"
-            autoFocus
-            placeholder="Search images and photos"
-            onChange={this.handleChange}
-          />
-        </form>
-      </header>
-    );
-  }
+        <input
+          className={s.input}
+          value={query}
+          type="text"
+          autoComplete="off"
+          autoFocus
+          placeholder="Search images and photos"
+          onChange={handleChange}
+        />
+      </form>
+    </header>
+  );
 }
-
-export default Searchbar;
 
 Searchbar.propTypes = {
   changeSearch: PropTypes.func.isRequired,
