@@ -31,9 +31,7 @@ export default function ImageGallery({ query, toggleModal }) {
     if (query === '') {
       return;
     }
-    if ((query !== '' && page === 1) || (query !== '' && page > 1)) {
-      getImages();
-    }
+    getImages();
     // eslint-disable-next-line
   }, [page]);
 
@@ -67,7 +65,6 @@ export default function ImageGallery({ query, toggleModal }) {
 
   const handleLoadMore = () => {
     setPage(prev => prev + 1);
-    setLoading(false);
   };
 
   return (
